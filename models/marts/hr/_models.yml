@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dim_employees
+    description: >
+      Employee dimension with department and manager context.
+      Grain: one row per employee.
+    columns:
+      - name: employee_id
+        tests: [not_null, unique]
+      - name: email
+        tests: [not_null, unique]
+      - name: salary_band
+        tests:
+          - accepted_values:
+              values: ['junior', 'mid', 'senior', 'executive']
+
+  - name: rpt_headcount_by_dept
+    description: Active headcount, payroll summary, and tenure stats per department.
+    columns:
+      - name: department_id
+        tests: [not_null, unique]

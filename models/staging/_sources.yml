@@ -1,0 +1,75 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw tables created and loaded directly in Snowflake (see snowflake_setup/).
+    database: DBT_PRACTICE
+    schema: RAW
+    tables:
+      - name: employees
+        description: One row per employee, including HR data and org hierarchy.
+        columns:
+          - name: employee_id
+            tests: [not_null, unique]
+          - name: email
+            tests: [not_null, unique]
+          - name: department_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'departments')
+                  field: department_id
+
+      - name: departments
+        description: One row per department.
+        columns:
+          - name: department_id
+            tests: [not_null, unique]
+
+      - name: customers
+        description: One row per registered customer.
+        columns:
+          - name: customer_id
+            tests: [not_null, unique]
+          - name: email
+            tests: [not_null, unique]
+
+      - name: orders
+        description: One row per customer order (header).
+        columns:
+          - name: order_id
+            tests: [not_null, unique]
+          - name: customer_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'customers')
+                  field: customer_id
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['pending', 'processing', 'delivered', 'cancelled', 'refunded']
+
+      - name: order_items
+        description: One row per line item within an order.
+        columns:
+          - name: order_item_id
+            tests: [not_null, unique]
+          - name: order_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'orders')
+                  field: order_id
+          - name: product_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'products')
+                  field: product_id
+
+      - name: products
+        description: One row per product SKU.
+        columns:
+          - name: product_id
+            tests: [not_null, unique]

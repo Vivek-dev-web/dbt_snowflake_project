@@ -1,0 +1,43 @@
+-- =============================================================================
+-- STEP 1 — Run as ACCOUNTADMIN (or a role with CREATE DATABASE / WAREHOUSE)
+-- =============================================================================
+
+-- Warehouse
+CREATE WAREHOUSE IF NOT EXISTS DBT_WH
+    WITH WAREHOUSE_SIZE = 'X-SMALL'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME   = TRUE
+    COMMENT = 'dbt practice warehouse';
+
+-- Database & schemas
+CREATE DATABASE IF NOT EXISTS DBT_PRACTICE;
+
+USE DATABASE DBT_PRACTICE;
+
+CREATE SCHEMA IF NOT EXISTS RAW       COMMENT = 'raw source tables — managed by Snowflake SQL scripts';
+CREATE SCHEMA IF NOT EXISTS STAGING   COMMENT = 'staging views — managed by dbt';
+CREATE SCHEMA IF NOT EXISTS CORE      COMMENT = 'core mart tables — managed by dbt';
+CREATE SCHEMA IF NOT EXISTS HR        COMMENT = 'HR mart tables — managed by dbt';
+
+-- Optional: dedicated role & user for dbt
+CREATE ROLE IF NOT EXISTS DBT_ROLE;
+GRANT USAGE  ON WAREHOUSE  DBT_WH          TO ROLE DBT_ROLE;
+GRANT USAGE  ON DATABASE   DBT_PRACTICE    TO ROLE DBT_ROLE;
+GRANT ALL    ON SCHEMA     DBT_PRACTICE.RAW     TO ROLE DBT_ROLE;
+GRANT ALL    ON SCHEMA     DBT_PRACTICE.STAGING  TO ROLE DBT_ROLE;
+GRANT ALL    ON SCHEMA     DBT_PRACTICE.CORE     TO ROLE DBT_ROLE;
+GRANT ALL    ON SCHEMA     DBT_PRACTICE.HR       TO ROLE DBT_ROLE;
+GRANT ALL    ON ALL TABLES IN SCHEMA DBT_PRACTICE.RAW TO ROLE DBT_ROLE;
+GRANT ALL    ON FUTURE TABLES IN SCHEMA DBT_PRACTICE.RAW     TO ROLE DBT_ROLE;
+GRANT ALL    ON FUTURE TABLES IN SCHEMA DBT_PRACTICE.STAGING  TO ROLE DBT_ROLE;
+GRANT ALL    ON FUTURE TABLES IN SCHEMA DBT_PRACTICE.CORE     TO ROLE DBT_ROLE;
+GRANT ALL    ON FUTURE TABLES IN SCHEMA DBT_PRACTICE.HR       TO ROLE DBT_ROLE;
+
+-- (optional) create a dedicated dbt user and assign the role
+-- CREATE USER IF NOT EXISTS dbt_user
+--     PASSWORD         = 'YourStrongP@ssword!'
+--     DEFAULT_ROLE     = DBT_ROLE
+--     DEFAULT_WAREHOUSE = DBT_WH
+--     DEFAULT_NAMESPACE = DBT_PRACTICE.PUBLIC
+--     MUST_CHANGE_PASSWORD = FALSE;
+-- GRANT ROLE DBT_ROLE TO USER dbt_user;

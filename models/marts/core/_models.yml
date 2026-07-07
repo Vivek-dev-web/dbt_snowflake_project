@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: >
+      Customer dimension with lifetime order aggregates and RFM classification.
+      Grain: one row per customer.
+    columns:
+      - name: customer_id
+        tests: [not_null, unique]
+      - name: email
+        tests: [not_null, unique]
+      - name: rfm_category
+        tests:
+          - accepted_values:
+              values: ['champion', 'loyal', 'potential', 'new', 'at_risk', 'active']
+
+  - name: fact_orders
+    description: >
+      Order fact table joined to customer and employee dimensions.
+      Grain: one row per order.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: revenue
+        description: Net revenue — zero for non-delivered orders.
+        tests: [not_null]
+
+  - name: rpt_monthly_revenue
+    description: "Monthly revenue rollup with MoM growth. Grain: one row per calendar month."
+    columns:
+      - name: order_month
+        tests: [not_null, unique]
