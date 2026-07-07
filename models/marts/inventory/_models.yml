@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: fact_stock_movements
+    description: >
+      Every restock, sale, adjustment, and return, joined to product and
+      warehouse attributes. Incremental — only rows loaded since the last run
+      are processed. Grain: one row per movement_id.
+    columns:
+      - name: movement_id
+        tests: [not_null, unique]
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      - name: warehouse_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_warehouses')
+              field: warehouse_id
+      - name: movement_type
+        tests:
+          - accepted_values:
+              values: ['restock', 'sale', 'adjustment', 'return']
+
+  - name: rpt_current_stock_levels
+    description: >
+      Latest running stock balance per product per warehouse, computed from
+      the full stock_movements ledger. Grain: one row per product_id x
+      warehouse_id.
+    columns:
+      - name: current_stock
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - warehouse_id
+
+  - name: rpt_inventory_reorder_alerts
+    description: >
+      Current stock vs. a 14-day-lead-time reorder point, using sales
+      velocity from the orders domain. Grain: one row per product_id x
+      warehouse_id.
+    columns:
+      - name: stock_status
+        tests:
+          - accepted_values:
+              values: ['out_of_stock', 'reorder_now', 'ok']
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - product_id
+            - warehouse_id

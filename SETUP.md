@@ -13,7 +13,11 @@ order_items  ─────────┤──────►  dim_customers,
 products     ─────────┤         dim_employees, rpt_headcount_by_dept
 campaigns    ─────────┤         fact_ad_spend (incremental), rpt_campaign_performance,
 ad_spend     ─────────┤         rpt_customer_acquisition_cohorts
-order_attribution ────┘
+order_attribution ────┤
+warehouses   ─────────┤         mart tables (INVENTORY schema)
+stock_movements ──────┘         fact_stock_movements (incremental), rpt_current_stock_levels,
+                                 rpt_inventory_reorder_alerts
+
                                  snapshots (SNAPSHOTS schema)
                                  campaigns_snapshot — SCD2 history of campaigns
 ```
@@ -42,6 +46,12 @@ snowflake_setup/04_marketing_tables.sql
 
 -- 5. Generate campaign/spend/attribution data; prints row counts at the end
 snowflake_setup/05_load_marketing_data.sql
+
+-- 6. Create inventory RAW tables (warehouses, stock_movements)
+snowflake_setup/06_inventory_tables.sql
+
+-- 7. Generate warehouse/stock-movement data; prints row counts at the end
+snowflake_setup/07_load_inventory_data.sql
 ```
 
 Expected row counts after step 3:
@@ -63,6 +73,13 @@ procedurally from a deterministic hash, so counts are stable across reruns):
 | campaigns          | 8    |
 | ad_spend           | 290  |
 | order_attribution  | ~62  |
+
+Expected row counts after step 7:
+
+| Table            | Rows |
+|---|---|
+| warehouses       | 3    |
+| stock_movements  | ~1000 |
 
 ---
 
@@ -122,7 +139,9 @@ models/
 │   ├── stg_products.sql           stock_status
 │   ├── stg_campaigns.sql          duration_weeks
 │   ├── stg_ad_spend.sql           click_through_rate, cost_per_click
-│   └── stg_order_attribution.sql
+│   ├── stg_order_attribution.sql
+│   ├── stg_warehouses.sql
+│   └── stg_stock_movements.sql
 └── marts/
     ├── hr/
     │   ├── dim_employees.sql            dept + manager join, is_department_head
@@ -131,11 +150,15 @@ models/
     │   ├── dim_customers.sql            LTV aggregates + RFM category
     │   ├── fact_orders.sql              order grain, joined to customer + employee
     │   └── rpt_monthly_revenue.sql      monthly revenue with MoM growth %
-    └── marketing/
-        ├── fact_ad_spend.sql                        incremental; weekly spend x campaign
-        ├── rpt_campaign_performance.sql              spend/ROAS + channel ROAS rank (window fn)
-        └── rpt_customer_acquisition_cohorts.sql      monthly cohort retention + cumulative
-                                                       revenue (window fn)
+    ├── marketing/
+    │   ├── fact_ad_spend.sql                        incremental; weekly spend x campaign
+    │   ├── rpt_campaign_performance.sql              spend/ROAS + channel ROAS rank (window fn)
+    │   └── rpt_customer_acquisition_cohorts.sql      monthly cohort retention + cumulative
+    │                                                  revenue (window fn)
+    └── inventory/
+        ├── fact_stock_movements.sql            incremental; restock/sale/adjustment/return ledger
+        ├── rpt_current_stock_levels.sql        running balance per product x warehouse (window fn)
+        └── rpt_inventory_reorder_alerts.sql    reorder point from sales velocity, urgency rank (window fn)
 
 snapshots/
 └── campaigns_snapshot.sql   SCD2 history of raw.campaigns (timestamp strategy on updated_at)
@@ -158,6 +181,9 @@ dbt compile --select analyses/top_customers_by_ltv
 
 # run just the marketing marts
 dbt run --select marts.marketing
+
+# run just the inventory marts
+dbt run --select marts.inventory
 
 # reprocess all ad_spend rows, ignoring the incremental filter
 dbt run --select fact_ad_spend --full-refresh

@@ -116,3 +116,33 @@ sources:
               - relationships:
                   to: source('raw', 'campaigns')
                   field: campaign_id
+
+      - name: warehouses
+        description: One row per fulfillment warehouse.
+        columns:
+          - name: warehouse_id
+            tests: [not_null, unique]
+
+      - name: stock_movements
+        description: >
+          Append-only inventory ledger. Current stock is the running sum of
+          this table, not a stored column.
+        columns:
+          - name: movement_id
+            tests: [not_null, unique]
+          - name: product_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'products')
+                  field: product_id
+          - name: warehouse_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'warehouses')
+                  field: warehouse_id
+          - name: movement_type
+            tests:
+              - accepted_values:
+                  values: ['restock', 'sale', 'adjustment', 'return']

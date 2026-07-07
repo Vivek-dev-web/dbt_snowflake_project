@@ -30,3 +30,6 @@ models:
       marketing:
         +schema: MARKETING
         +materialized: table
+      inventory:
+        +schema: INVENTORY
+        +materialized: table
