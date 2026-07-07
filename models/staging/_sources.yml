@@ -73,3 +73,46 @@ sources:
         columns:
           - name: product_id
             tests: [not_null, unique]
+
+      - name: campaigns
+        description: One row per marketing campaign. status/budget can change over time.
+        columns:
+          - name: campaign_id
+            tests: [not_null, unique]
+          - name: channel
+            tests:
+              - accepted_values:
+                  values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+          - name: status
+            tests:
+              - accepted_values:
+                  values: ['planned', 'active', 'paused', 'completed']
+
+      - name: ad_spend
+        description: Weekly grain spend/performance per campaign. Append-only.
+        columns:
+          - name: ad_spend_id
+            tests: [not_null, unique]
+          - name: campaign_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'campaigns')
+                  field: campaign_id
+
+      - name: order_attribution
+        description: Last-click attribution linking an order to the campaign credited for it.
+        columns:
+          - name: order_id
+            tests:
+              - not_null
+              - unique
+              - relationships:
+                  to: source('raw', 'orders')
+                  field: order_id
+          - name: campaign_id
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'campaigns')
+                  field: campaign_id

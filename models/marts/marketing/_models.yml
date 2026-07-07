@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: fact_ad_spend
+    description: >
+      Weekly ad spend/performance per campaign, joined to campaign attributes.
+      Incremental — only rows loaded since the last run are processed.
+      Grain: one row per ad_spend_id (campaign x week).
+    columns:
+      - name: ad_spend_id
+        tests: [not_null, unique]
+      - name: campaign_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_campaigns')
+              field: campaign_id
+      - name: channel
+        tests:
+          - accepted_values:
+              values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+
+  - name: rpt_campaign_performance
+    description: >
+      Campaign-level spend, attributed orders/revenue, ROAS, and a channel ROAS
+      ranking. Grain: one row per campaign.
+    columns:
+      - name: campaign_id
+        tests: [not_null, unique]
+      - name: channel
+        tests:
+          - accepted_values:
+              values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+
+  - name: rpt_customer_acquisition_cohorts
+    description: >
+      Monthly acquisition cohort retention and cumulative revenue.
+      Grain: one row per cohort_month x order_month.
+    columns:
+      - name: cohort_month
+        tests: [not_null]
+      - name: order_month
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - cohort_month
+            - order_month

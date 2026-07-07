@@ -27,3 +27,6 @@ models:
       hr:
         +schema: HR
         +materialized: table
+      marketing:
+        +schema: MARKETING
+        +materialized: table
