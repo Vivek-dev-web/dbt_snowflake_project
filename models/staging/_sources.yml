@@ -17,8 +17,9 @@ sources:
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'departments')
-                  field: department_id
+                  arguments:
+                    to: source('raw', 'departments')
+                    field: department_id
 
       - name: departments
         description: One row per department.
@@ -43,12 +44,14 @@ sources:
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'customers')
-                  field: customer_id
+                  arguments:
+                    to: source('raw', 'customers')
+                    field: customer_id
           - name: status
             tests:
               - accepted_values:
-                  values: ['pending', 'processing', 'delivered', 'cancelled', 'refunded']
+                  arguments:
+                    values: ['pending', 'processing', 'delivered', 'cancelled', 'refunded']
 
       - name: order_items
         description: One row per line item within an order.
@@ -59,14 +62,16 @@ sources:
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'orders')
-                  field: order_id
+                  arguments:
+                    to: source('raw', 'orders')
+                    field: order_id
           - name: product_id
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'products')
-                  field: product_id
+                  arguments:
+                    to: source('raw', 'products')
+                    field: product_id
 
       - name: products
         description: One row per product SKU.
@@ -82,11 +87,13 @@ sources:
           - name: channel
             tests:
               - accepted_values:
-                  values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+                  arguments:
+                    values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
           - name: status
             tests:
               - accepted_values:
-                  values: ['planned', 'active', 'paused', 'completed']
+                  arguments:
+                    values: ['planned', 'active', 'paused', 'completed']
 
       - name: ad_spend
         description: Weekly grain spend/performance per campaign. Append-only.
@@ -97,8 +104,9 @@ sources:
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'campaigns')
-                  field: campaign_id
+                  arguments:
+                    to: source('raw', 'campaigns')
+                    field: campaign_id
 
       - name: order_attribution
         description: Last-click attribution linking an order to the campaign credited for it.
@@ -108,14 +116,16 @@ sources:
               - not_null
               - unique
               - relationships:
-                  to: source('raw', 'orders')
-                  field: order_id
+                  arguments:
+                    to: source('raw', 'orders')
+                    field: order_id
           - name: campaign_id
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'campaigns')
-                  field: campaign_id
+                  arguments:
+                    to: source('raw', 'campaigns')
+                    field: campaign_id
 
       - name: warehouses
         description: One row per fulfillment warehouse.
@@ -134,15 +144,18 @@ sources:
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'products')
-                  field: product_id
+                  arguments:
+                    to: source('raw', 'products')
+                    field: product_id
           - name: warehouse_id
             tests:
               - not_null
               - relationships:
-                  to: source('raw', 'warehouses')
-                  field: warehouse_id
+                  arguments:
+                    to: source('raw', 'warehouses')
+                    field: warehouse_id
           - name: movement_type
             tests:
               - accepted_values:
-                  values: ['restock', 'sale', 'adjustment', 'return']
+                  arguments:
+                    values: ['restock', 'sale', 'adjustment', 'return']

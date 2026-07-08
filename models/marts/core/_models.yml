@@ -13,7 +13,8 @@ models:
       - name: rfm_category
         tests:
           - accepted_values:
-              values: ['champion', 'loyal', 'potential', 'new', 'at_risk', 'active']
+              arguments:
+                values: ['champion', 'loyal', 'potential', 'new', 'at_risk', 'active']
 
   - name: fact_orders
     description: >
@@ -26,8 +27,9 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_customers')
-              field: customer_id
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
       - name: revenue
         description: Net revenue — zero for non-delivered orders.
         tests: [not_null]

@@ -13,18 +13,21 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_products')
-              field: product_id
+              arguments:
+                to: ref('stg_products')
+                field: product_id
       - name: warehouse_id
         tests:
           - not_null
           - relationships:
-              to: ref('stg_warehouses')
-              field: warehouse_id
+              arguments:
+                to: ref('stg_warehouses')
+                field: warehouse_id
       - name: movement_type
         tests:
           - accepted_values:
-              values: ['restock', 'sale', 'adjustment', 'return']
+              arguments:
+                values: ['restock', 'sale', 'adjustment', 'return']
 
   - name: rpt_current_stock_levels
     description: >
@@ -36,9 +39,10 @@ models:
         tests: [not_null]
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - warehouse_id
+          arguments:
+            combination_of_columns:
+              - product_id
+              - warehouse_id
 
   - name: rpt_inventory_reorder_alerts
     description: >
@@ -49,9 +53,11 @@ models:
       - name: stock_status
         tests:
           - accepted_values:
-              values: ['out_of_stock', 'reorder_now', 'ok']
+              arguments:
+                values: ['out_of_stock', 'reorder_now', 'ok']
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - product_id
-            - warehouse_id
+          arguments:
+            combination_of_columns:
+              - product_id
+              - warehouse_id

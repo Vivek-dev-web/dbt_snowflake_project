@@ -13,7 +13,8 @@ models:
       - name: salary_band
         tests:
           - accepted_values:
-              values: ['junior', 'mid', 'senior', 'executive']
+              arguments:
+                values: ['junior', 'mid', 'senior', 'executive']
 
   - name: rpt_headcount_by_dept
     description: Active headcount, payroll summary, and tenure stats per department.

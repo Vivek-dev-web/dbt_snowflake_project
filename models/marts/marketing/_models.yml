@@ -13,12 +13,14 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_campaigns')
-              field: campaign_id
+              arguments:
+                to: ref('stg_campaigns')
+                field: campaign_id
       - name: channel
         tests:
           - accepted_values:
-              values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+              arguments:
+                values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
 
   - name: rpt_campaign_performance
     description: >
@@ -30,7 +32,8 @@ models:
       - name: channel
         tests:
           - accepted_values:
-              values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
+              arguments:
+                values: ['google_ads', 'facebook_ads', 'instagram_ads', 'tiktok_ads', 'email', 'affiliate']
 
   - name: rpt_customer_acquisition_cohorts
     description: >
@@ -43,6 +46,7 @@ models:
         tests: [not_null]
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - cohort_month
-            - order_month
+          arguments:
+            combination_of_columns:
+              - cohort_month
+              - order_month
