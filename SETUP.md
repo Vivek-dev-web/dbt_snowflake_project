@@ -1,5 +1,10 @@
 # dbt + Snowflake Practice Project
 
+> For the *why* behind this layout — how dbt and Snowflake divide
+> responsibility, why the build sequence matters, and what each file type is
+> for — see [DESIGN.md](DESIGN.md). This file is the *how*: setup and
+> commands.
+
 ## Architecture
 
 ```
