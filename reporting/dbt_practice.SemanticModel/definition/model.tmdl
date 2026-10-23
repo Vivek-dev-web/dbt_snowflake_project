@@ -1,0 +1,16 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table dim_customers
+ref table fact_orders
+ref table rpt_monthly_revenue
+ref table dim_employees
+ref table rpt_headcount_by_dept
+ref table rpt_campaign_performance
+ref table rpt_customer_acquisition_cohorts
+ref table rpt_current_stock_levels
+ref table rpt_inventory_reorder_alerts

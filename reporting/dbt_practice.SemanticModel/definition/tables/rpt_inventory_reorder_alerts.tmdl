@@ -1,0 +1,109 @@
+table rpt_inventory_reorder_alerts
+	lineageTag: a75db954-75ce-4cdc-9b92-d4420b946a66
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a8e14cf-9c05-4639-a5fc-134024002b3e
+		summarizeBy: none
+		sourceColumn: PRODUCT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: c79cc700-1430-4c9b-9b37-6fa65d41bae5
+		summarizeBy: none
+		sourceColumn: PRODUCT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_name
+		dataType: string
+		lineageTag: 5dc82735-52b8-4948-8829-429ec0e01936
+		summarizeBy: none
+		sourceColumn: CATEGORY_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fbc27a13-8181-4ff1-83dd-6a9641260f96
+		summarizeBy: none
+		sourceColumn: WAREHOUSE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_name
+		dataType: string
+		lineageTag: a4aada3b-38b4-401e-8277-44db8f5cc4a7
+		summarizeBy: none
+		sourceColumn: WAREHOUSE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_stock
+		dataType: int64
+		formatString: 0
+		lineageTag: fb631522-1592-4018-84f1-b7e9da8e8374
+		summarizeBy: none
+		sourceColumn: CURRENT_STOCK
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_daily_units_sold
+		dataType: double
+		lineageTag: 6574c97e-b5cb-4681-a608-1542d8654d7a
+		summarizeBy: none
+		sourceColumn: AVG_DAILY_UNITS_SOLD
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorder_point
+		dataType: double
+		lineageTag: d9e9496c-77be-4510-b184-4a9dd36b3092
+		summarizeBy: none
+		sourceColumn: REORDER_POINT
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_of_stock_remaining
+		dataType: double
+		lineageTag: 1411c0b0-9005-4285-bb9a-f801a94b96d5
+		summarizeBy: none
+		sourceColumn: DAYS_OF_STOCK_REMAINING
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_status
+		dataType: string
+		lineageTag: dcca52f5-cf48-4250-aeec-46fa3e132c33
+		summarizeBy: none
+		sourceColumn: STOCK_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column urgency_rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ba8ee68-beee-4721-9fbe-f82d9dad9345
+		summarizeBy: none
+		sourceColumn: URGENCY_RANK
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Products Needing Reorder' = COUNTROWS(FILTER(rpt_inventory_reorder_alerts, rpt_inventory_reorder_alerts[stock_status] = "reorder_now"))
+		formatString: #,##0
+		lineageTag: 8afb2043-498a-4e28-b2da-fc5eec6dbb53
+
+	partition rpt_inventory_reorder_alerts = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_INVENTORY.RPT_INVENTORY_REORDER_ALERTS"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"PRODUCT_ID", Int64.Type}, {"PRODUCT_NAME", type text}, {"CATEGORY_NAME", type text}, {"WAREHOUSE_ID", Int64.Type}, {"WAREHOUSE_NAME", type text}, {"CURRENT_STOCK", Int64.Type}, {"AVG_DAILY_UNITS_SOLD", type number}, {"REORDER_POINT", type number}, {"DAYS_OF_STOCK_REMAINING", type number}, {"STOCK_STATUS", type text}, {"URGENCY_RANK", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

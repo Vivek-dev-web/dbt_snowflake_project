@@ -1,0 +1,82 @@
+table rpt_customer_acquisition_cohorts
+	lineageTag: e765f24e-4f46-4a5c-81ef-6efaedcb3281
+
+	column cohort_month
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6096d673-f8f2-40fe-b75a-fc4b12edb3e0
+		summarizeBy: none
+		sourceColumn: COHORT_MONTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_month
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 96109a4b-ba5c-4afe-83f1-2a8410d5f9e8
+		summarizeBy: none
+		sourceColumn: ORDER_MONTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column months_since_acquisition
+		dataType: int64
+		formatString: 0
+		lineageTag: e2c17b81-06ea-48e2-ba23-07713e251fe7
+		summarizeBy: none
+		sourceColumn: MONTHS_SINCE_ACQUISITION
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_size
+		dataType: int64
+		formatString: 0
+		lineageTag: 705fdd23-ca5b-41cb-8f81-28aef6006283
+		summarizeBy: none
+		sourceColumn: COHORT_SIZE
+
+		annotation SummarizationSetBy = Automatic
+
+	column active_customers
+		dataType: int64
+		formatString: 0
+		lineageTag: 716c1361-d635-447c-83a7-3a19b2e79d1c
+		summarizeBy: none
+		sourceColumn: ACTIVE_CUSTOMERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column retention_rate
+		dataType: double
+		lineageTag: 357a4e77-f7d7-49b3-a9e2-9f164a663892
+		summarizeBy: none
+		sourceColumn: RETENTION_RATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		lineageTag: b6326e45-3f22-4bb1-b140-79e8eb7d9c88
+		summarizeBy: none
+		sourceColumn: REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column cumulative_cohort_revenue
+		dataType: double
+		lineageTag: 56b6a1d3-5fdd-4b66-8109-6b80740538cd
+		summarizeBy: none
+		sourceColumn: CUMULATIVE_COHORT_REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rpt_customer_acquisition_cohorts = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_MARKETING.RPT_CUSTOMER_ACQUISITION_COHORTS"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"COHORT_MONTH", type datetime}, {"ORDER_MONTH", type datetime}, {"MONTHS_SINCE_ACQUISITION", Int64.Type}, {"COHORT_SIZE", Int64.Type}, {"ACTIVE_CUSTOMERS", Int64.Type}, {"RETENTION_RATE", type number}, {"REVENUE", type number}, {"CUMULATIVE_COHORT_REVENUE", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

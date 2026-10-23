@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pages/1.0.0/schema.json",
+  "pageOrder": [
+    "Overview",
+    "SalesCustomers",
+    "HR",
+    "Marketing",
+    "Inventory"
+  ],
+  "activePageName": "Overview"
+}

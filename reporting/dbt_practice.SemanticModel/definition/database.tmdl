@@ -1,0 +1,2 @@
+database dbt_practice
+	compatibilityLevel: 1567

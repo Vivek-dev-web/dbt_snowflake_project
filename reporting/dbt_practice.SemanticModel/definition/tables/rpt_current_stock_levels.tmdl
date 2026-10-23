@@ -1,0 +1,81 @@
+table rpt_current_stock_levels
+	lineageTag: 98d168e3-2d25-4f09-8565-8178e40fc7a3
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: da9cd999-f3f7-425a-9f95-9f24cac51685
+		summarizeBy: none
+		sourceColumn: PRODUCT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: af44fbae-2107-4352-b379-7a16a8fbcff6
+		summarizeBy: none
+		sourceColumn: PRODUCT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_name
+		dataType: string
+		lineageTag: 055ee357-6e48-4c12-9574-d171d6b0d33f
+		summarizeBy: none
+		sourceColumn: CATEGORY_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ed9370d-43d8-4824-b691-8190614abe9e
+		summarizeBy: none
+		sourceColumn: WAREHOUSE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_name
+		dataType: string
+		lineageTag: 3446dc12-2ee5-4675-8898-58b300782dc0
+		summarizeBy: none
+		sourceColumn: WAREHOUSE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_state
+		dataType: string
+		lineageTag: 04937090-aa21-4157-9ecb-f463e9e20d5a
+		summarizeBy: none
+		sourceColumn: WAREHOUSE_STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column as_of_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 99d62057-f227-45b3-8780-864ee9c9dfbf
+		summarizeBy: none
+		sourceColumn: AS_OF_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_stock
+		dataType: int64
+		formatString: 0
+		lineageTag: 86a456a9-4080-4a09-a9b5-f63e168a2358
+		summarizeBy: none
+		sourceColumn: CURRENT_STOCK
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rpt_current_stock_levels = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_INVENTORY.RPT_CURRENT_STOCK_LEVELS"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"PRODUCT_ID", Int64.Type}, {"PRODUCT_NAME", type text}, {"CATEGORY_NAME", type text}, {"WAREHOUSE_ID", Int64.Type}, {"WAREHOUSE_NAME", type text}, {"WAREHOUSE_STATE", type text}, {"AS_OF_DATE", type datetime}, {"CURRENT_STOCK", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

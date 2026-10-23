@@ -1,0 +1,8 @@
+relationship 6e9ab643-fcea-4fb0-8264-36266169c309
+	fromColumn: fact_orders.customer_id
+	toColumn: dim_customers.customer_id
+
+relationship 58871a96-ff39-4096-acbf-beb665c45b00
+	fromColumn: fact_orders.employee_id
+	toColumn: dim_employees.employee_id
+

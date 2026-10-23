@@ -1,0 +1,64 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "table_campaign_performance",
+  "position": {
+    "x": 20,
+    "y": 160,
+    "z": 0,
+    "width": 880,
+    "height": 300,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "rpt_campaign_performance" } },
+                  "Property": "campaign_name"
+                }
+              },
+              "queryRef": "rpt_campaign_performance.campaign_name",
+              "nativeQueryRef": "campaign_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "rpt_campaign_performance" } },
+                  "Property": "channel"
+                }
+              },
+              "queryRef": "rpt_campaign_performance.channel",
+              "nativeQueryRef": "channel"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "rpt_campaign_performance" } },
+                  "Property": "total_spend"
+                }
+              },
+              "queryRef": "rpt_campaign_performance.total_spend",
+              "nativeQueryRef": "total_spend"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": { "SourceRef": { "Entity": "rpt_campaign_performance" } },
+                  "Property": "roas"
+                }
+              },
+              "queryRef": "rpt_campaign_performance.roas",
+              "nativeQueryRef": "roas"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {}
+  }
+}

@@ -1,0 +1,99 @@
+table rpt_monthly_revenue
+	lineageTag: 9724464d-74e1-4cd8-b75e-60a03d7347c4
+
+	column order_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 56ad597e-864a-4491-a11b-bf639d250aca
+		summarizeBy: none
+		sourceColumn: ORDER_YEAR
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_month
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 16cf5d32-3b97-4323-a47d-af27bda2fd76
+		summarizeBy: none
+		sourceColumn: ORDER_MONTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 91917fcc-1793-4813-bad0-c4e15d0c16e2
+		summarizeBy: none
+		sourceColumn: TOTAL_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column unique_customers
+		dataType: int64
+		formatString: 0
+		lineageTag: 462de1cc-3534-4704-b19b-7733d06eec85
+		summarizeBy: none
+		sourceColumn: UNIQUE_CUSTOMERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_revenue
+		dataType: double
+		lineageTag: 47cfa41b-0ac8-4da8-aa09-52d7bc923ccb
+		summarizeBy: none
+		sourceColumn: TOTAL_REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_order_revenue
+		dataType: double
+		lineageTag: 20b01e02-ba6a-4d75-8840-59271828c2f7
+		summarizeBy: none
+		sourceColumn: AVG_ORDER_REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column cancelled_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 5019396f-2425-4d49-a930-3c01bb5573bb
+		summarizeBy: none
+		sourceColumn: CANCELLED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column refunded_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 15567fd6-5fd4-4ff1-a3fe-e0935e1f4875
+		summarizeBy: none
+		sourceColumn: REFUNDED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column prev_month_revenue
+		dataType: double
+		lineageTag: 03f1e243-f8f6-480e-bc82-98d1279704e5
+		summarizeBy: none
+		sourceColumn: PREV_MONTH_REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column mom_growth_pct
+		dataType: double
+		lineageTag: ff8355fa-546b-45e7-8490-d5a18e4ead30
+		summarizeBy: none
+		sourceColumn: MOM_GROWTH_PCT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rpt_monthly_revenue = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_CORE.RPT_MONTHLY_REVENUE"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"ORDER_YEAR", Int64.Type}, {"ORDER_MONTH", type datetime}, {"TOTAL_ORDERS", Int64.Type}, {"UNIQUE_CUSTOMERS", Int64.Type}, {"TOTAL_REVENUE", type number}, {"AVG_ORDER_REVENUE", type number}, {"CANCELLED_ORDERS", Int64.Type}, {"REFUNDED_ORDERS", Int64.Type}, {"PREV_MONTH_REVENUE", type number}, {"MOM_GROWTH_PCT", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

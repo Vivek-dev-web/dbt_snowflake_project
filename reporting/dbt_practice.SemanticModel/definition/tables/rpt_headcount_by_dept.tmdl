@@ -1,0 +1,150 @@
+table rpt_headcount_by_dept
+	lineageTag: ec9a60a1-283f-4c13-a99a-24a702c98985
+
+	column department_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e88f2f8e-63ea-4c16-906b-23b9806380d3
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_name
+		dataType: string
+		lineageTag: 84fa095a-0afa-44a0-a449-49ccb2a28e77
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_location
+		dataType: string
+		lineageTag: a90c9732-ac89-4fd9-bef3-44272bdf68c1
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_LOCATION
+
+		annotation SummarizationSetBy = Automatic
+
+	column headcount
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d8649c2-f0a5-4dda-a963-fd8095be94db
+		summarizeBy: none
+		sourceColumn: HEADCOUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_heads
+		dataType: int64
+		formatString: 0
+		lineageTag: efcf73cf-2cfb-49d7-b6f8-91e584670af9
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_HEADS
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_payroll
+		dataType: double
+		lineageTag: 36779e91-99d0-44a7-9b12-ff41f337a93a
+		summarizeBy: none
+		sourceColumn: TOTAL_PAYROLL
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_salary
+		dataType: double
+		lineageTag: 8109907f-4903-463f-8e49-f071b4a731fb
+		summarizeBy: none
+		sourceColumn: AVG_SALARY
+
+		annotation SummarizationSetBy = Automatic
+
+	column min_salary
+		dataType: double
+		lineageTag: 37512d77-d547-4ba3-ac5e-dd92ee4f24ea
+		summarizeBy: none
+		sourceColumn: MIN_SALARY
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_salary
+		dataType: double
+		lineageTag: 4cf74d7c-4980-4b32-87b2-39ff52f8c43d
+		summarizeBy: none
+		sourceColumn: MAX_SALARY
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_tenure_years
+		dataType: double
+		lineageTag: 99f36230-34bd-444f-9c94-1204e2d79d32
+		summarizeBy: none
+		sourceColumn: AVG_TENURE_YEARS
+
+		annotation SummarizationSetBy = Automatic
+
+	column earliest_hire_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 52acecfa-f69e-49d8-a94e-ab6d4601969d
+		summarizeBy: none
+		sourceColumn: EARLIEST_HIRE_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column most_recent_hire_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dac76df3-3dbd-4c04-9b90-2507aee2c0cc
+		summarizeBy: none
+		sourceColumn: MOST_RECENT_HIRE_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column junior_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c0f07c6-eb34-43e9-a9f0-ffc4d09345ef
+		summarizeBy: none
+		sourceColumn: JUNIOR_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column mid_count
+		dataType: int64
+		formatString: 0
+		lineageTag: b2f93a2f-bd2b-431b-833a-dc76f8cbe008
+		summarizeBy: none
+		sourceColumn: MID_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column senior_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a19b505e-54a4-45e4-8753-2763c65dea13
+		summarizeBy: none
+		sourceColumn: SENIOR_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	column executive_count
+		dataType: int64
+		formatString: 0
+		lineageTag: c572d2eb-c5a4-4fea-86dc-df624dfadd7e
+		summarizeBy: none
+		sourceColumn: EXECUTIVE_COUNT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rpt_headcount_by_dept = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_HR.RPT_HEADCOUNT_BY_DEPT"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"DEPARTMENT_ID", Int64.Type}, {"DEPARTMENT_NAME", type text}, {"DEPARTMENT_LOCATION", type text}, {"HEADCOUNT", Int64.Type}, {"DEPARTMENT_HEADS", Int64.Type}, {"TOTAL_PAYROLL", type number}, {"AVG_SALARY", type number}, {"MIN_SALARY", type number}, {"MAX_SALARY", type number}, {"AVG_TENURE_YEARS", type number}, {"EARLIEST_HIRE_DATE", type datetime}, {"MOST_RECENT_HIRE_DATE", type datetime}, {"JUNIOR_COUNT", Int64.Type}, {"MID_COUNT", Int64.Type}, {"SENIOR_COUNT", Int64.Type}, {"EXECUTIVE_COUNT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

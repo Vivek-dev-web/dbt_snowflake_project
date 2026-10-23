@@ -1,0 +1,233 @@
+table dim_customers
+	lineageTag: 71856063-cfa1-449b-94c3-0cbb915aec09
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c7fa6f6-4352-4ae8-81e1-c6552ec77564
+		summarizeBy: none
+		sourceColumn: CUSTOMER_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		lineageTag: 76cff79b-00d6-43eb-9a3b-e521b2fa2137
+		summarizeBy: none
+		sourceColumn: FULL_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_name
+		dataType: string
+		lineageTag: 2ea1a315-8519-4017-bad6-5be6505c96a9
+		summarizeBy: none
+		sourceColumn: FIRST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: 8b257d7b-eb25-45f6-a9c6-e45bc7055695
+		summarizeBy: none
+		sourceColumn: LAST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: c48764af-afcb-4362-8b27-2c17c46c0f4a
+		summarizeBy: none
+		sourceColumn: EMAIL
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: 285e7aa0-b846-447d-b798-dd954752be1f
+		summarizeBy: none
+		sourceColumn: PHONE
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 5d764ad4-d9dc-40b3-b23c-b7a523923275
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: b8c1a785-4219-4bc8-a8c1-ebd6f90b3a7f
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 14935fc3-7b39-4c6e-bc59-d407039c3d17
+		summarizeBy: none
+		sourceColumn: COUNTRY
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9348fd56-15a1-45b7-a65e-99e2a9bf1aac
+		summarizeBy: none
+		sourceColumn: REGISTRATION_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_of_birth
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b4356edf-2448-4cf8-b6aa-5f52370fd8ca
+		summarizeBy: none
+		sourceColumn: DATE_OF_BIRTH
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		formatString: 0
+		lineageTag: 246dbf55-b961-4596-80c3-4daaa9bf4473
+		summarizeBy: none
+		sourceColumn: AGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_registration
+		dataType: int64
+		formatString: 0
+		lineageTag: 77570c1e-0c54-48c1-bb72-621224f26461
+		summarizeBy: none
+		sourceColumn: DAYS_SINCE_REGISTRATION
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_segment
+		dataType: string
+		lineageTag: af260437-a7af-40ac-a703-2bbae35f3e79
+		summarizeBy: none
+		sourceColumn: CUSTOMER_SEGMENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_limit
+		dataType: double
+		lineageTag: 542ea2db-6c61-433f-8ab9-07041bc06d0f
+		summarizeBy: none
+		sourceColumn: CREDIT_LIMIT
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		lineageTag: ed253d77-0502-4ce3-a813-988973fbc1da
+		summarizeBy: none
+		sourceColumn: IS_ACTIVE
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 93383296-92a2-4031-8259-a6786daeab66
+		summarizeBy: none
+		sourceColumn: TOTAL_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivered_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b2b2e25-b2b9-47d7-a5b3-e9a556418ba2
+		summarizeBy: none
+		sourceColumn: DELIVERED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column cancelled_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: c89d45a9-6903-49b1-8c91-2d1b6d9dd464
+		summarizeBy: none
+		sourceColumn: CANCELLED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column refunded_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: fabdefe4-3d2f-4b66-a3d0-682d7e2a7010
+		summarizeBy: none
+		sourceColumn: REFUNDED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column lifetime_value
+		dataType: double
+		lineageTag: 2226e632-fe52-407e-83df-273f1cc7ca3d
+		summarizeBy: none
+		sourceColumn: LIFETIME_VALUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_order_value
+		dataType: double
+		lineageTag: ac17216a-1cc7-49ba-9b44-002316fdedfc
+		summarizeBy: none
+		sourceColumn: AVG_ORDER_VALUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 153c8141-f389-4861-a5ea-cd29e151f39a
+		summarizeBy: none
+		sourceColumn: FIRST_ORDER_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dcd280e8-859c-49b1-aed7-e286f566b6e3
+		summarizeBy: none
+		sourceColumn: LAST_ORDER_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_last_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 61316b96-2479-41f5-a061-ced9f08d6779
+		summarizeBy: none
+		sourceColumn: DAYS_SINCE_LAST_ORDER
+
+		annotation SummarizationSetBy = Automatic
+
+	column rfm_category
+		dataType: string
+		lineageTag: 01751226-be1c-44cb-a4ae-c4d645319b74
+		summarizeBy: none
+		sourceColumn: RFM_CATEGORY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_CORE.DIM_CUSTOMERS"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"CUSTOMER_ID", Int64.Type}, {"FULL_NAME", type text}, {"FIRST_NAME", type text}, {"LAST_NAME", type text}, {"EMAIL", type text}, {"PHONE", type text}, {"CITY", type text}, {"STATE", type text}, {"COUNTRY", type text}, {"REGISTRATION_DATE", type datetime}, {"DATE_OF_BIRTH", type datetime}, {"AGE", Int64.Type}, {"DAYS_SINCE_REGISTRATION", Int64.Type}, {"CUSTOMER_SEGMENT", type text}, {"CREDIT_LIMIT", type number}, {"IS_ACTIVE", type logical}, {"TOTAL_ORDERS", Int64.Type}, {"DELIVERED_ORDERS", Int64.Type}, {"CANCELLED_ORDERS", Int64.Type}, {"REFUNDED_ORDERS", Int64.Type}, {"LIFETIME_VALUE", type number}, {"AVG_ORDER_VALUE", type number}, {"FIRST_ORDER_DATE", type datetime}, {"LAST_ORDER_DATE", type datetime}, {"DAYS_SINCE_LAST_ORDER", Int64.Type}, {"RFM_CATEGORY", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

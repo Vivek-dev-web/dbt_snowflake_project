@@ -1,0 +1,156 @@
+table rpt_campaign_performance
+	lineageTag: dcb21546-78fa-4dd5-9fb4-5e9dd66ec122
+
+	column campaign_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c933773e-326e-4d24-8c9a-01b0a3bb3ea9
+		summarizeBy: none
+		sourceColumn: CAMPAIGN_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column campaign_name
+		dataType: string
+		lineageTag: 13123576-09de-4aa3-af08-3dd3af495954
+		summarizeBy: none
+		sourceColumn: CAMPAIGN_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel
+		dataType: string
+		lineageTag: eab0553b-185e-4eed-8a11-31f720445cbc
+		summarizeBy: none
+		sourceColumn: CHANNEL
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 8e750ff6-b085-4973-9c86-a7d572825c80
+		summarizeBy: none
+		sourceColumn: STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d07f397c-4f1f-412f-a0cc-0bbbda7d3ebb
+		summarizeBy: none
+		sourceColumn: START_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: da909b78-f499-4514-8e2f-92b78a5094b5
+		summarizeBy: none
+		sourceColumn: END_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column budget
+		dataType: double
+		lineageTag: b38cf8a8-f620-4bfb-bdc7-35266b743300
+		summarizeBy: none
+		sourceColumn: BUDGET
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_impressions
+		dataType: int64
+		formatString: 0
+		lineageTag: de25d24d-b69c-4380-baff-0ccf92c1588c
+		summarizeBy: none
+		sourceColumn: TOTAL_IMPRESSIONS
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_clicks
+		dataType: int64
+		formatString: 0
+		lineageTag: 16b49c87-c582-468c-8736-6d2e2261049d
+		summarizeBy: none
+		sourceColumn: TOTAL_CLICKS
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_spend
+		dataType: double
+		lineageTag: b92c0f11-691a-44fa-9e74-5051e494bab6
+		summarizeBy: none
+		sourceColumn: TOTAL_SPEND
+
+		annotation SummarizationSetBy = Automatic
+
+	column click_through_rate
+		dataType: double
+		lineageTag: bda1d0fd-591d-4c49-8129-56ea46fd0966
+		summarizeBy: none
+		sourceColumn: CLICK_THROUGH_RATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_per_click
+		dataType: double
+		lineageTag: 07993240-885e-4599-9016-aa367fbe1e33
+		summarizeBy: none
+		sourceColumn: COST_PER_CLICK
+
+		annotation SummarizationSetBy = Automatic
+
+	column attributed_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e2b5ee4-770e-48fe-a0da-0d80db595919
+		summarizeBy: none
+		sourceColumn: ATTRIBUTED_ORDERS
+
+		annotation SummarizationSetBy = Automatic
+
+	column attributed_revenue
+		dataType: double
+		lineageTag: 2c94800b-7ec6-4c68-b241-7a27cf672794
+		summarizeBy: none
+		sourceColumn: ATTRIBUTED_REVENUE
+
+		annotation SummarizationSetBy = Automatic
+
+	column roas
+		dataType: double
+		lineageTag: 77478fd5-2e58-471e-bb2d-d520a0441c7f
+		summarizeBy: none
+		sourceColumn: ROAS
+
+		annotation SummarizationSetBy = Automatic
+
+	column roas_rank_in_channel
+		dataType: int64
+		formatString: 0
+		lineageTag: 0464e2de-1a6d-41e2-8d33-cb44b652d556
+		summarizeBy: none
+		sourceColumn: ROAS_RANK_IN_CHANNEL
+
+		annotation SummarizationSetBy = Automatic
+
+	column cumulative_spend_by_start_date
+		dataType: double
+		lineageTag: 91898c73-3aee-4d4e-b822-0a14039cac5b
+		summarizeBy: none
+		sourceColumn: CUMULATIVE_SPEND_BY_START_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rpt_campaign_performance = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_MARKETING.RPT_CAMPAIGN_PERFORMANCE"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"CAMPAIGN_ID", Int64.Type}, {"CAMPAIGN_NAME", type text}, {"CHANNEL", type text}, {"STATUS", type text}, {"START_DATE", type datetime}, {"END_DATE", type datetime}, {"BUDGET", type number}, {"TOTAL_IMPRESSIONS", Int64.Type}, {"TOTAL_CLICKS", Int64.Type}, {"TOTAL_SPEND", type number}, {"CLICK_THROUGH_RATE", type number}, {"COST_PER_CLICK", type number}, {"ATTRIBUTED_ORDERS", Int64.Type}, {"ATTRIBUTED_REVENUE", type number}, {"ROAS", type number}, {"ROAS_RANK_IN_CHANNEL", Int64.Type}, {"CUMULATIVE_SPEND_BY_START_DATE", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table

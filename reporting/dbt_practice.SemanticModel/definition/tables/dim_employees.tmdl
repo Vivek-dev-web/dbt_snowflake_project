@@ -1,0 +1,176 @@
+table dim_employees
+	lineageTag: ce18b7b5-9e8b-4c1d-a8b9-fc1fc3fbc04c
+
+	column employee_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 38005ed9-2a1a-4d12-bdae-2490629b5d6f
+		summarizeBy: none
+		sourceColumn: EMPLOYEE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		lineageTag: 6befebd3-0660-450e-a093-b6d999ea4b78
+		summarizeBy: none
+		sourceColumn: FULL_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_name
+		dataType: string
+		lineageTag: 71282591-c2a7-48fe-b105-926403e770a0
+		summarizeBy: none
+		sourceColumn: FIRST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: fac331bf-4b73-46d4-93b2-b7c30f4d6730
+		summarizeBy: none
+		sourceColumn: LAST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 21a684bf-475f-4f88-aa05-40ed7f7cc915
+		summarizeBy: none
+		sourceColumn: EMAIL
+
+		annotation SummarizationSetBy = Automatic
+
+	column phone
+		dataType: string
+		lineageTag: d81d4640-df82-4bfd-bd12-28ce815ca7ad
+		summarizeBy: none
+		sourceColumn: PHONE
+
+		annotation SummarizationSetBy = Automatic
+
+	column job_title
+		dataType: string
+		lineageTag: 84bf9d32-4446-494c-b229-8d5525e3f262
+		summarizeBy: none
+		sourceColumn: JOB_TITLE
+
+		annotation SummarizationSetBy = Automatic
+
+	column salary
+		dataType: double
+		lineageTag: 52ea26aa-2878-4f1f-8a87-a78d6ec96eb1
+		summarizeBy: none
+		sourceColumn: SALARY
+
+		annotation SummarizationSetBy = Automatic
+
+	column salary_band
+		dataType: string
+		lineageTag: 5f8b05cd-c61c-485e-8b81-891499a218e4
+		summarizeBy: none
+		sourceColumn: SALARY_BAND
+
+		annotation SummarizationSetBy = Automatic
+
+	column hire_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a5b321f2-7e56-436d-964d-1c8e17c66170
+		summarizeBy: none
+		sourceColumn: HIRE_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column tenure_years
+		dataType: double
+		lineageTag: 0f9bafc9-c98c-4e7a-84f3-d4f5d154ed3a
+		summarizeBy: none
+		sourceColumn: TENURE_YEARS
+
+		annotation SummarizationSetBy = Automatic
+
+	column employment_status
+		dataType: string
+		lineageTag: bd8a03ed-f1db-4b7d-b7e0-61600777f4a6
+		summarizeBy: none
+		sourceColumn: EMPLOYMENT_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: ee0c4bbb-1887-4157-ac69-47dd2701b0d4
+		summarizeBy: none
+		sourceColumn: CITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 9ba512cc-49b5-4728-bb32-b343a702a180
+		summarizeBy: none
+		sourceColumn: STATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6aed5e7c-2bb0-40e6-adb7-465b32d2498f
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_name
+		dataType: string
+		lineageTag: 3c38e8ed-2e61-4903-a907-7f3c9d4aca27
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_location
+		dataType: string
+		lineageTag: 3cb41f16-df31-4948-a4ff-b73d97f6727c
+		summarizeBy: none
+		sourceColumn: DEPARTMENT_LOCATION
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_name
+		dataType: string
+		lineageTag: 14ec6e86-28b8-4d1d-b72c-787d76fabc52
+		summarizeBy: none
+		sourceColumn: MANAGER_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column manager_title
+		dataType: string
+		lineageTag: a73fbdc7-b24d-44f1-b989-94834aed91bb
+		summarizeBy: none
+		sourceColumn: MANAGER_TITLE
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_department_head
+		dataType: boolean
+		lineageTag: a746671f-9fc4-4f19-b77f-77eda92b7a91
+		summarizeBy: none
+		sourceColumn: IS_DEPARTMENT_HEAD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_employees = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.Query("dsn=dbt_practice_snowflake", "SELECT * FROM DBT_PRACTICE.PUBLIC_HR.DIM_EMPLOYEES"),
+				    #"Changed Type" = Table.TransformColumnTypes(Source, {{"EMPLOYEE_ID", Int64.Type}, {"FULL_NAME", type text}, {"FIRST_NAME", type text}, {"LAST_NAME", type text}, {"EMAIL", type text}, {"PHONE", type text}, {"JOB_TITLE", type text}, {"SALARY", type number}, {"SALARY_BAND", type text}, {"HIRE_DATE", type datetime}, {"TENURE_YEARS", type number}, {"EMPLOYMENT_STATUS", type text}, {"CITY", type text}, {"STATE", type text}, {"DEPARTMENT_ID", Int64.Type}, {"DEPARTMENT_NAME", type text}, {"DEPARTMENT_LOCATION", type text}, {"MANAGER_NAME", type text}, {"MANAGER_TITLE", type text}, {"IS_DEPARTMENT_HEAD", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
